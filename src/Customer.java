@@ -1,10 +1,9 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Customer {
 
-	private  CustomerReport customerReport = new CustomerReport();
+	private RentalReport customerReport = new RentalReport();
 
 	private String name;
 

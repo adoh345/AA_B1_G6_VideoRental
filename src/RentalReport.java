@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class CustomerReport {
+public class RentalReport {
 
     public String getReport(List<Rental> rentals)
     {
