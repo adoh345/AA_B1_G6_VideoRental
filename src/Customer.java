@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 public class Customer {
+
+	private  CustomerReport customerReport = new CustomerReport();
+
 	private String name;
 
 	private List<Rental> rentals = new ArrayList<Rental>();
@@ -28,46 +32,11 @@ public class Customer {
 
 	public void addRental(Rental rental) {
 		rentals.add(rental);
-
 	}
 
 	public String getReport() {
 		String result = "Customer Report for " + getName() + "\n";
-
-		List<Rental> rentals = getRentals();
-
-		double totalCharge = 0;
-		int totalPoint = 0;
-
-		for (Rental each : rentals) {
-
-			int daysRented = each.getDaysRented();
-			double eachCharge = each.getEachCharge(daysRented);
-			int eachPoint = each.getEachPoint(daysRented);
-
-			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge;
-			totalCharge += eachCharge;
-
-			totalPoint += eachPoint ;
-		}
-
-		result += "Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n";
-
-		checkFreeCoupon(totalPoint);
-
+		result += customerReport.getReport(getRentals());
 		return result ;
 	}
-
-	private static void checkFreeCoupon(int totalPoint) {
-
-		if ( totalPoint >= 10 ) {
-			System.out.println("Congrat! You earned one free coupon");
-
-		}
-		if ( totalPoint >= 30 ) {
-			System.out.println("Congrat! You earned two free coupon");
-		}
-	}
-
-
 }
