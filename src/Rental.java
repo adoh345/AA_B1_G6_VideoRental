@@ -16,6 +16,14 @@ public class Rental {
 		return video;
 	}
 
+	public String getTitle(){
+		return video.getTitle();
+	}
+
+	public int getPriceCode(){
+		return video.getPriceCode();
+	}
+
 	public void setVideo(Video video) {
 		this.video = video;
 	}
