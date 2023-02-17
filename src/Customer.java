@@ -41,13 +41,11 @@ public class Customer {
 
 		for (Rental each : rentals) {
 
-			int daysRented = getDaysRented(each);
-			double eachCharge = getEachCharge(each.getVideo().getPriceCode(), daysRented);
-			int eachPoint = getEachPoint(each, daysRented);
+			int daysRented = each.getDaysRented();
+			double eachCharge = each.getEachCharge(daysRented);
+			int eachPoint = each.getEachPoint(daysRented);
 
-			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
-					+ "\tPoint: " + eachPoint + "\n";
-
+			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge;
 			totalCharge += eachCharge;
 
 			totalPoint += eachPoint ;
@@ -71,48 +69,5 @@ public class Customer {
 		}
 	}
 
-	private static int getEachPoint(Rental each, int daysRented) {
-		int eachPoint = 1;
 
-		if ((each.getVideo().getPriceCode() == Video.NEW_RELEASE) )
-			eachPoint++;
-
-		if ( daysRented > each.getDaysRentedLimit() )
-			eachPoint -= Math.min(eachPoint, each.getVideo().getLateReturnPointPenalty()) ;
-		return eachPoint;
-	}
-
-	private static double getEachCharge(int priceCode, int daysRented) {
-		double eachCharge = 0;
-
-		switch (priceCode) {
-			case Video.REGULAR:
-				eachCharge += 2;
-				if (daysRented > 2)
-					eachCharge += (daysRented - 2) * 1.5;
-				break;
-			case Video.NEW_RELEASE:
-				eachCharge = daysRented * 3;
-				break;
-		}
-		return eachCharge;
-	}
-
-	private static int getDaysRented(Rental each) {
-		int daysRented;
-		long diff;
-
-		long rentDate = each.getRentDate().getTime();
-
-		if (each.getStatus() == 1) { // returned Video
-			diff = each.getReturnDate().getTime() - rentDate;
-
-		} else { // not yet returned
-			diff = new Date().getTime() - rentDate;
-
-		}
-		daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-
-		return daysRented;
-	}
 }
